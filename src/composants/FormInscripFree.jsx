@@ -29,7 +29,7 @@ export default function FormInscripFree() {
     <div className="h-screen  flex flex-col bg-[#0000007a]  justify-center">
       <div>
         <div
-          className="max-w-xl mx-auto bg-white rounded-xl"
+          className="max-w-xl mx-auto bg-white rounded-xl max-[630px]:mx-[20px]"
           style={{ boxShadow: "0px 0px 20px 0px" }}
         >
           <div className="rounded-xl shadow-sm border border-gray-200 overflow-hidden">

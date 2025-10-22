@@ -14,10 +14,10 @@ export default function Home() {
   return (
     <header className="flex flex-col justify-between h-screen">
       <Navbar />
-      <div className="container mx-auto flex flex-col justify-around items-center text-center h-full  max-w-[1200px] my-0">
+      <div className="container mx-auto flex flex-col justify-around items-center text-center h-full max-[1050px]:px-[50px]  max-w-[1200px] mb-0 mt-[50px]">
         <div>
           <h1 className="mb-[50px]">
-            <strong className="bg-clip-text text-transparent bg-gradient-to-r from-blue-700  text-6xl to-purple-500">
+            <strong className="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 max-[430px]:text-5xl  text-6xl to-purple-500">
               Rejoignez notre communauté de vendeurs et acheteurs passionnés !
             </strong>
           </h1>
