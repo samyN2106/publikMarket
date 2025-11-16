@@ -18,11 +18,13 @@ export default function Produit() {
     async function recupProduits() {
       const res = await fetch(`/api/AllProduits?page=${page}&limit=5`);
       const rep = await res.json();
-      setProduits((prev) => {
-        const ids = new Set(prev.map((p) => p.id));
-        const nouveaux = rep.produits.filter((p) => !ids.has(p.id));
-        return [...prev, ...nouveaux];
-      });
+      if (rep.produits) {
+        setProduits((prev) => {
+          const ids = new Set(prev.map((p) => p.id));
+          const nouveaux = rep.produits.filter((p) => !ids.has(p.id));
+          return [...prev, ...nouveaux];
+        });
+      }
 
       if (page >= rep.totalPages) {
         setChargement(false);
@@ -91,17 +93,11 @@ export default function Produit() {
     recupProduits();
   }, [page, query]);
 
-
-
-
   return (
     <>
-
-
       <HeaderProduits>
         <Search onSearch={handleSearch} />
       </HeaderProduits>
-
 
       <article className="max-w-[1400px] mx-auto max-[1460]:mx-[20px]  grid grid-cols-4 max-[1000px]:grid-cols-3 max-[600px]:grid-cols-2 max-[418px]:grid-cols-1 gap-4 ">
         {(query ? produitsSearch : produits).map((pd) => {
@@ -120,8 +116,6 @@ export default function Produit() {
         })}
       </article>
 
-
-
       {chargerment ? (
         <div
           ref={haveMore}
@@ -133,8 +127,6 @@ export default function Produit() {
       ) : (
         ""
       )}
-
-      
     </>
   );
 }
