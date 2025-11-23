@@ -30,7 +30,7 @@ export default function useVerifierPwd() {
 
       if (value.length === 0) {
         return "";
-      }
+      } 
       if (score <= 3) {
         return "Faible";
       }

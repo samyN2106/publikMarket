@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 
 export default function HeaderProduits({ children }) {
   const [session, setSession] = useState(null);
+  
   useEffect(() => {
     async function getSession() {
       try {

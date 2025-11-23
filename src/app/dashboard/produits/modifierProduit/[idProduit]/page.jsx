@@ -100,7 +100,7 @@ export default function MdofifProduit() {
       );
 
     return (
-      <main className="min-[400px]:p-[30px] max-[400px]:p-[20px] relative min-[1100px]:ml-64">
+      <main className="min-[400px]:p-[30px] w-full max-[400px]:p-[20px] relative min-[1100px]:ml-64">
         {confirmerSupprimerProduit ? (
           <div className="fixed w-full inset-0 bg-[#0000006b] bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-md">
@@ -131,8 +131,8 @@ export default function MdofifProduit() {
         )}
 
         <h2 className="text-3xl font-bold mb-8">Modifier produit</h2>
-        <div className="flex gap-[30px] max-[810px]:flex-col-reverse">
-          <div className="">
+        <div className="flex w-full gap-[30px] max-[810px]:flex-col-reverse">
+          <div>
             <Image
               src={produit.image}
               width={500}
@@ -140,7 +140,7 @@ export default function MdofifProduit() {
               alt={produit.nomProduit}
             />
           </div>
-          <div className="">
+          <div className="w-full">
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="bg-white p-6 rounded-xl relative shadow-md mb-10 mx-auto "

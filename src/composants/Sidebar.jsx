@@ -7,6 +7,7 @@ export default function Sidebar() {
   const router = useRouter();
   const [afficherSivbar, setAfficherSivbar] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  
   const handleLogout = async () => {
     await fetch("/api/deconnexion", { method: "POST" });
     setShowModal(false);

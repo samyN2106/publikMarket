@@ -1,13 +1,14 @@
 import Button from "@/composants/Button";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getProduits } from "@/lib/getProduits";
 import { prisma } from "@/lib/prisma";
 
 export async function generateMetadata({ params }) {
   const { idProduit } = await params;
-  const AllProduits = await getProduits();
-  const Currentproduit = AllProduits.find((pd) => pd.id == idProduit);
+
+  const Currentproduit = await prisma.product.findUnique({
+    where: { id: parseInt(idProduit) },
+  });
   return {
     title: `${Currentproduit.nomProduit} | PublikMarket`,
     description: `Achetez ${Currentproduit.nomProduit} au meilleur prix sur PublikMarket.`,
@@ -17,9 +18,9 @@ export async function generateMetadata({ params }) {
 export default async function produitId({ params }) {
   const { idProduit } = await params;
 
-  const AllProduits = await getProduits();
-
-  const Currentproduit = AllProduits.find((pd) => pd.id == idProduit);
+  const Currentproduit = await prisma.product.findUnique({
+    where: { id: parseInt(idProduit) },
+  });
 
   if (!Currentproduit) return notFound();
 
