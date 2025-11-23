@@ -21,7 +21,7 @@ export default async function Produit() {
       <div className="grid grid-cols-3 max-[840px]:grid-cols-2  max-[418px]:grid-cols-1 gap-3 ">
         {produitsAdd.map((produit) => {
           return (
-            <Link key={produit.id} href={`/dashboard/produits/${produit.id}`}>
+            <Link key={produit.id} href={`/dashboard/produits/modifierProduit/${produit.id}`}>
               <div className="bg-white border border-gray-200 shadow-md relative  w-full max-w-sm rounded-lg overflow-hidden mx-auto mt-4">
                 <div className="aspect-[3/2] ">
                   <Image src={produit.image} alt={produit.nomProduit} fill />

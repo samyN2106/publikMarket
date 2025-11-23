@@ -1,5 +1,4 @@
 import Button from "@/composants/Button";
-import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getProduits } from "@/lib/getProduits";
@@ -9,9 +8,9 @@ export async function generateMetadata({ params }) {
   const { idProduit } = await params;
   const AllProduits = await getProduits();
   const Currentproduit = AllProduits.find((pd) => pd.id == idProduit);
-    return {
+  return {
     title: `${Currentproduit.nomProduit} | PublikMarket`,
-    description: `Achetez ${curren.nomProduit} au meilleur prix sur PublikMarket.`,
+    description: `Achetez ${Currentproduit.nomProduit} au meilleur prix sur PublikMarket.`,
   };
 }
 
@@ -49,6 +48,9 @@ export default async function produitId({ params }) {
 
       <main className="max-w-[1200px] mx-auto  mt-[30px] max-[1300px]:mx-[50px]">
         <section className="mb-[100px]">
+          <h2 className="text-center text-[30px] font-bold mb-[30px]">
+            {Currentproduit.nomProduit}
+          </h2>
           {
             <div className="flex max-[760px]:flex-col ">
               <div className="w-[50%] max-[760px]:w-full h-[450px] mr-[30px] relative">
@@ -90,23 +92,6 @@ export default async function produitId({ params }) {
               </div>
             </div>
           }
-        </section>
-
-        <section className="grid grid-cols-3 max-[1000px]:grid-cols-2  max-[444px]:grid-cols-1 gap-4 ">
-          {AllProduits.map((pd) => {
-            return (
-              <Link key={pd.id} href={`/produits/${pd.id}`}>
-                <div className="bg-white border border-gray-200 shadow-md relative  w-full max-w-sm rounded-lg overflow-hidden mx-auto mt-4">
-                  <span className="absolute bg-white right-0 top-0 px-[15px] z-10 font-bold text-xl text-red-600">
-                    {pd.price}FCFA
-                  </span>
-                  <div className="aspect-[3/2] ">
-                    <Image src={pd.image} alt={pd.nomProduit} fill />
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
         </section>
       </main>
     </>

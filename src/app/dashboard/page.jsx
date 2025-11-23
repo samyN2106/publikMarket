@@ -3,7 +3,6 @@ import { decrypt } from "@/lib/crypto";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
-// import { getProduits } from "@/src/lib/getProduits";
 
 export default async function Dashboard() {
   const setCookies = await cookies();

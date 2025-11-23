@@ -10,7 +10,7 @@ export function Search({ onSearch }) {
   }, [query]);
 
   return (
-    <form className="flex w-[70%]  max-[816px]:w-full" action="">
+    <form className="flex w-[70%]  max-[816px]:w-full">
       <input
         value={query}
         onChange={(e) => setQuery(e.target.value)}

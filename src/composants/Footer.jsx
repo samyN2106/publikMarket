@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Button from "./Button";
 import { cookies } from "next/headers";
 export default async function Footer() {

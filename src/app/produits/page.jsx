@@ -18,16 +18,17 @@ export default function Produit() {
     async function recupProduits() {
       const res = await fetch(`/api/AllProduits?page=${page}&limit=5`);
       const rep = await res.json();
-      if (rep.produits) {
+
+      if (res.ok) {
         setProduits((prev) => {
           const ids = new Set(prev.map((p) => p.id));
-          const nouveaux = rep.produits.filter((p) => !ids.has(p.id));
+          const nouveaux = (rep.produits ?? []).filter((p) => !ids.has(p.id));
           return [...prev, ...nouveaux];
         });
-      }
 
-      if (page >= rep.totalPages) {
-        setChargement(false);
+        if (page >= rep.totalPages) {
+          setChargement(false);
+        }
       }
     }
     recupProduits();
@@ -64,10 +65,12 @@ export default function Produit() {
         `/api/search?q=${query}&page=${pageSearch}&limit=5`
       );
       const rep = await res.json();
-      setProduitsSearch([...rep.produits]);
+      if (res.ok) {
+        setProduitsSearch([...rep.produits]);
 
-      if (pageSearch >= rep.totalPages) {
-        setChargement(false);
+        if (pageSearch >= rep.totalPages) {
+          setChargement(false);
+        }
       }
     }
     search();
@@ -80,11 +83,13 @@ export default function Produit() {
       const res = await fetch(`/api/AllProduits?page=${page}&limit=5`);
       const rep = await res.json();
 
-      setProduits((prev) => {
-        const ids = new Set(prev.map((p) => p.id));
-        const nouveaux = rep.produits.filter((p) => !ids.has(p.id));
-        return [...prev, ...nouveaux];
-      });
+      if (res.ok) {
+        setProduits((prev) => {
+          const ids = new Set(prev.map((p) => p.id));
+          const nouveaux = (rep.produits ?? []).filter((p) => !ids.has(p.id));
+          return [...prev, ...nouveaux];
+        });
+      }
 
       if (page >= rep.totalPages) {
         setChargement(false);
