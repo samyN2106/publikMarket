@@ -1,8 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { prisma } from "@/lib/prisma";
-import { getProduits } from "@/lib/getProduits";
+import { getProduits } from "@/app/getProduits";
 
 export async function generateMetadata({ params }) {
   const { idProduit } = await params;
@@ -21,22 +20,17 @@ export default async function Espaceproduit({ params }) {
   const produit = await AllProduits.find((pd) => pd.id == idProduit);
   if (!produit || produit.lenght === 0) return notFound();
 
-  const boutiqueId = produit?.boutiqueId;
 
-  const boutiqueName = await prisma.Boutique.findUnique({
-    where: { id: boutiqueId },
-    select: { name: true },
-  });
 
   const produits = await AllProduits.filter(
-    (pd) => pd.boutiqueId === boutiqueId
+    (pd) => pd.boutiqueId == produit.boutiqueId
   );
 
   return (
     <>
       <header>
         <h1 className="ml-[10px] text-3xl max-[430px]:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-purple-500  py-6 drop-shadow-lg">
-          Espace {boutiqueName.name}
+          Espace {produit.boutique.name}
         </h1>
       </header>
 
@@ -86,7 +80,7 @@ export default async function Espaceproduit({ params }) {
             return (
               <Link
                 key={pd.id}
-                href={`/MarketEspace/${boutiqueId}-${boutiqueName.name}/${pd.id}`}
+                href={`/MarketEspace/${produit.boutiqueId}-${produit.boutique.name}/${pd.id}`}
               >
                 <div className="bg-white border border-gray-200 shadow-md relative  w-full max-w-sm rounded-lg overflow-hidden mx-auto mt-4">
                   <span className="absolute bg-white right-0 top-0 px-[15px] z-10 font-bold text-xl text-red-600">

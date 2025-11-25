@@ -1,6 +1,9 @@
 import "../globals.css";
 import Sidebar from "@/composants/Sidebar";
 
+export const metadata = {
+  title: "Dashboard | PublikMarket",
+};
 
 export default function dashboardLayout({ children }) {
   return (

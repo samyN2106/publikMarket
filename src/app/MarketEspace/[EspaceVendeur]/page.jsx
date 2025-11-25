@@ -1,9 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { prisma } from "@/lib/prisma";
 import HeaderProduits from "@/composants/HeaderProduits";
 import { notFound } from "next/navigation";
-import { getProduits } from "@/lib/getProduits";
+import { getProduits } from "@/app/getProduits";
 
 export const metadata = {
   title: "MarketEspace | PublikMarket",
@@ -11,17 +10,10 @@ export const metadata = {
 
 export default async function EspaceVente({ params }) {
   const AllProduits = await getProduits();
-  const [id, ...boutiqueName] = await params.EspaceVendeur.split("-");
+  const [id] = await params.EspaceVendeur.split("-");
   const boutiqueId = parseInt(id);
 
-  const nomBoutique = await prisma.boutique.findUnique({
-    where: { id: boutiqueId },
-    select: { name: true },
-  });
 
-  if (!nomBoutique.name) {
-    return notFound();
-  }
 
   const produits = await AllProduits.filter(
     (pd) => pd.boutiqueId === boutiqueId
@@ -37,7 +29,7 @@ export default async function EspaceVente({ params }) {
 
       <div className="mb-[30px]">
         <h1 className="text-6xl max-[430px]:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-purple-500 text-center py-6 drop-shadow-lg">
-          Bienvenue chez {nomBoutique.name}
+          Bienvenue chez {produits[0].boutique.name}
         </h1>
       </div>
 
@@ -46,7 +38,7 @@ export default async function EspaceVente({ params }) {
           return (
             <Link
               key={pd.id}
-              href={`/MarketEspace/${boutiqueId}-${boutiqueName[0]}/${pd.id}`}
+              href={`/MarketEspace/${pd.boutiqueId}-${pd.boutique.name}/${pd.id}`}
             >
               <div className="bg-white border border-gray-200 shadow-md relative  w-full max-w-sm rounded-lg overflow-hidden mx-auto mt-4">
                 <span className="absolute bg-white right-0 top-0 px-[15px] z-10 font-bold text-[23px] text-red-600">

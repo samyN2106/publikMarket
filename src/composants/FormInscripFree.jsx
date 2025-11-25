@@ -23,38 +23,36 @@ export default function FormInscripFree() {
     setValuePwd(passwordValue);
   }, [passwordValue]);
 
-
-
   const onSubmit = async (data) => {
     setLoading(true);
-    const reponse = await fetch("/api/inscriptionFree", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    try {
+      const reponse = await fetch("/api/inscriptionFree", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    const result = await reponse.json();
+      const result = await reponse.json();
 
-    if (reponse.ok) {
-      setLoading(false);
-      router.push("/produits");
-    }
+      if (reponse.ok) {
+        setLoading(false);
+        router.push("/produits");
+      }
 
-    if (!reponse.ok) {
-      setLoading(false);
-      setErrorServeur(result.message);
-    }
+      if (!reponse.ok) {
+        setLoading(false);
+        setErrorServeur(result.message);
+      }
 
-    if (reponse.status === 500) {
-      console.error("Erreur du serveur:", result.erreur);
+      if (reponse.status === 500) {
+        console.error("Erreur du serveur:", result.erreur);
+      }
+    } catch (error) {
+      console.error("erreur lors du transfere des donnees:", error);
     }
   };
-
-
-
-
 
   return (
     <div className="h-screen  flex flex-col bg-[#0000007a] justify-center relative">

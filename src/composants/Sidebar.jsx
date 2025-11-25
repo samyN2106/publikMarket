@@ -8,11 +8,12 @@ export default function Sidebar() {
   const [afficherSivbar, setAfficherSivbar] = useState(false);
   const [showModal, setShowModal] = useState(false);
   
-  const handleLogout = async () => {
+  const deconnexion = async () => {
     await fetch("/api/deconnexion", { method: "POST" });
     setShowModal(false);
     router.push("/connexion");
   };
+
   return (
     <>
       {showModal ? (
@@ -32,7 +33,7 @@ export default function Sidebar() {
                 Annuler
               </button>
               <button
-                onClick={handleLogout}
+                onClick={deconnexion}
                 className="px-4 py-2 bg-[#9e86ba] text-white rounded hover:bg-[#b7b2bd]"
               >
                 Valider
@@ -43,6 +44,8 @@ export default function Sidebar() {
       ) : (
         ""
       )}
+
+      
 
       {!afficherSivbar ? (
         <div

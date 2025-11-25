@@ -3,10 +3,15 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(request: NextRequest, { params }) {
   try {
-    const idProduit = await params.idProduit;
+    const { idProduit } = await params;
 
     const produit = await prisma.product.findUnique({
       where: { id: parseInt(idProduit) },
+      include: {
+        boutique: {
+          select: {  name: true }, // récupère uniquement le nom
+        },
+      },
     });
     return NextResponse.json({ produit: produit }, { status: 200 });
   } catch (error) {

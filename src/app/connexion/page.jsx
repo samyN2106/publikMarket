@@ -15,32 +15,34 @@ export default function Connexion() {
   const [erreurServeur, setErreurServeur] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  
-
   const onSubmit = async (data) => {
     setLoading(true);
-    const reponse = await fetch("/api/connexion", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    try {
+      const reponse = await fetch("/api/connexion", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    const result = await reponse.json();
+      const result = await reponse.json();
 
-    if (reponse.ok) {
-      router.push("/produits");
-      setLoading(false);
-    } else if (reponse.status === 401) {
-      setErreurConnexion(true);
-      setLoading(false);
-    }
+      if (reponse.ok) {
+        router.push("/produits");
+        setLoading(false);
+      } else if (reponse.status === 401) {
+        setErreurConnexion(true);
+        setLoading(false);
+      }
 
-    if (reponse.status === 500) {
-      setErreurServeur(true);
-      setLoading(false);
-      console.error("Erreur serveur:", result.erreur);
+      if (reponse.status === 500) {
+        setErreurServeur(true);
+        setLoading(false);
+        console.error("Erreur serveur:", result.erreur);
+      }
+    } catch (error) {
+      console.error("erreur lors du transfere des donnees:", error);
     }
   };
 
@@ -92,7 +94,6 @@ export default function Connexion() {
         ) : (
           ""
         )}
-
 
         <form className="p-[20px]" onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">

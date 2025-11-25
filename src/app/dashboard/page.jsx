@@ -1,8 +1,11 @@
 import { cookies } from "next/headers";
 import { decrypt } from "@/lib/crypto";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/prisma";
 import Image from "next/image";
+
+export const metadata = {
+  title: "Dashboard | PublikMartket",
+};
 
 export default async function Dashboard() {
   const setCookies = await cookies();
@@ -10,15 +13,18 @@ export default async function Dashboard() {
   if (!session) redirect("/");
   const boutiqueId = decrypt(session);
 
-  const paiement = await prisma.payment.findUnique({
-    where: { boutiqueId: parseInt(boutiqueId) },
-  });
+  const reponse = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/paiement/${boutiqueId}`,
+    {
+      cache: "no-store",
+    }
+  );
 
-  const totalProduits = await prisma.product.count({
-    where: {
-      boutiqueId: parseInt(boutiqueId),
-    },
-  });
+  const result = await reponse.json();
+
+  const paiement = result.paiement;
+
+  const totalProduits = result.totalProduits;
 
   if (!paiement) {
     return (

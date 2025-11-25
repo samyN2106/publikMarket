@@ -3,7 +3,11 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { decrypt } from "@/lib/crypto";
 import Image from "next/image";
-import { getProduits } from "@/lib/getProduits";
+import { getProduits } from "@/app/getProduits";
+
+export const metadata={
+  title:"Produits | PublikMarket"
+}
 
 export default async function Produit() {
   const setCookies = await cookies();
