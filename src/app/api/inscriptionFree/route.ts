@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     const hashedPassword = await bcryptjs.hash(data.password, 10);
 
     const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 3);
+    expiresAt.setDate(expiresAt.getDate() + 5);
 
     const Boutique = await prisma.boutique.create({
       data: {
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
       data: {
         boutiqueId: Boutique.id,
         plan: "free",
-        nbrProduits: 7,
+        nbrProduits: 3,
         montant: 0,
         paymentMethod: "free",
         paymentStatus: "completed",
