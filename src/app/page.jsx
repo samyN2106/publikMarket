@@ -34,7 +34,7 @@ export default async function Home() {
               <h3 className="text-xl font-semibold mb-4">Gratuit</h3>
               <p className="text-3xl font-bold mb-4">0 FCFA</p>
               <ul className="text-gray-600 mb-6 space-y-2">
-                <li>3 annonce</li>
+                <li>7 annonce</li>
                 <li>Durée abonnement: 5 jours</li>
                 <li>Visibilité maximale et permanante</li>
               </ul>
@@ -50,7 +50,7 @@ export default async function Home() {
 
             {/* Plan Standard */}
             <div
-              style={{ borderStyle: "dashed" }}
+              style={{ borderStyle: "dashed", textDecoration: "line-through" }}
               className="bg-white shadow-lg rounded-2xl p-6 text-center border-2 border-blue-600 hover:scale-105 transition"
             >
               <h3 className="text-xl font-semibold mb-4 text-blue-600">
@@ -74,7 +74,7 @@ export default async function Home() {
 
             {/* Plan Premium */}
             <div
-              style={{ borderStyle: "dashed" }}
+              style={{ borderStyle: "dashed", textDecoration: "line-through" }}
               className="bg-white shadow-md rounded-2xl p-6 text-center border hover:scale-105 transition"
             >
               <h3 className="text-xl font-semibold mb-4 text-yellow-600">
