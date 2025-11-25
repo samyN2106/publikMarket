@@ -41,7 +41,7 @@ export default function Navbar() {
           </span>
         </div>
         <div className="flex flex-col items-center gap-3 p-[30px]">
-          <Button href="/produits">Se connecter</Button>
+          <Button href="/connexion">Se connecter</Button>
           <Button href="/produits">Voir les produits</Button>
         </div>
       </div>
