@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { decrypt } from "@/lib/crypto";
-import { getProduits } from "@/lib/getProduits";
+import { getProduits } from "@/app/getProduits";
 
 export async function POST(request: NextRequest) {
   try {
