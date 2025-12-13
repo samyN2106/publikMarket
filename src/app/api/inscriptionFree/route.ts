@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       where: { email: data.email },
     });
 
-    if (existingBoutique != null) {
+    if (existingBoutique) {
       return NextResponse.json(
         { message: "Ce email est deja utilise" },
         { status: 409 }
