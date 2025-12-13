@@ -45,11 +45,7 @@ export default async function produitId({ params }) {
         <header>
           <nav className="flex justify-end p-[20px]">
             <div>
-              <Button
-                href={`/MarketEspace/${
-                  Currentproduit.boutiqueId
-                }-${encodeURIComponent(Currentproduit.boutique.name)}`}
-              >
+              <Button href={`/MarketEspace/${Currentproduit.boutiqueId}`}>
                 Voir tous les produits de ce vendeur
               </Button>
             </div>

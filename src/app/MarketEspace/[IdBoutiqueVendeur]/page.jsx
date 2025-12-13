@@ -10,17 +10,17 @@ export const metadata = {
 
 export default async function EspaceVente({ params }) {
   const AllProduits = await getProduits();
-  const [id] = await params.EspaceVendeur.split("-");
-  const boutiqueId = parseInt(id);
+  const { IdBoutiqueVendeur } = await params;
+  const boutiqueId = parseInt(IdBoutiqueVendeur);
 
+  const verifBoutique = AllProduits.find((pd) => pd.boutiqueId == boutiqueId);
+  if (!verifBoutique) {
+    return notFound();
+  }
 
   const produits = await AllProduits.filter(
     (pd) => pd.boutiqueId === boutiqueId
   );
-
-  if (!produits || produits.length === 0) {
-    return notFound();
-  }
 
   return (
     <>
@@ -37,9 +37,9 @@ export default async function EspaceVente({ params }) {
           return (
             <Link
               key={pd.id}
-              href={`/MarketEspace/${pd.boutiqueId}-${pd.boutique.name}/${pd.id}`}
+              href={`/MarketEspace/${pd.boutiqueId}/${pd.id}`}
             >
-              <div className="bg-white border border-gray-200 shadow-md relative  w-full max-w-sm rounded-lg overflow-hidden mx-auto mt-4">
+              <div className="bg-white border border-gray-200 shadow-md relative  w-full max-w-sm overflow-hidden mx-auto mt-4">
                 <span className="absolute bg-white right-0 top-0  z-10 font-bold text-full text-red-600">
                   <p className="px-[5px]">{pd.price} FCFA</p>
                 </span>

@@ -81,7 +81,7 @@ export default async function Espaceproduit({ params }) {
             return (
               <Link
                 key={pd.id}
-                href={`/MarketEspace/${produit.boutiqueId}-${produit.boutique.name}/${pd.id}`}
+                href={`/MarketEspace/${produit.boutiqueId}/${pd.id}`}
               >
                 <div className="bg-white border border-gray-200 shadow-md relative  w-full max-w-sm  overflow-hidden mx-auto">
                   <span className="absolute bg-white right-0 top-0  z-10 font-bold min-[1000px]:text-xl text-red-600">
