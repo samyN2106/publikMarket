@@ -1,5 +1,5 @@
 import FormInscripFree from "@/composants/FormInscripFree";
-// import FormInscripPayant from "@/composants/FormInscripPayant";
+import FormInscripPayant from "@/composants/FormInscripPayant";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
@@ -22,8 +22,8 @@ export default async function Inscription({ params }) {
   if (plan === "gratuit") {
     return <FormInscripFree />;
   } else {
-    // if (plan === "standart" || plan === "premium") {
-    //   return <FormInscripPayant offre={offre} />;
-    // }
+    if (plan === "standart" || plan === "premium") {
+      return <FormInscripPayant offre={plan} />;
+    }
   }
 }

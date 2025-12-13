@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
       data: {
         boutiqueId: Boutique.id,
         plan: "free",
-        nbrProduits: 3,
+        nbrProduits: 6,
         montant: 0,
         paymentMethod: "free",
         paymentStatus: "completed",

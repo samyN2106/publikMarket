@@ -133,7 +133,6 @@ export default function FormInscripFree() {
                       required: "Email requis",
                     })}
                     type="email"
-                    id="email"
                     className="px-4 py-2.5 bg-white border border-gray-400 text-slate-900 w-full text-sm rounded-md focus:outline-indigo-600"
                   />
                   {errors.email && (

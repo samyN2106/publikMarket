@@ -20,8 +20,6 @@ export default async function Espaceproduit({ params }) {
   const produit = await AllProduits.find((pd) => pd.id == idProduit);
   if (!produit || produit.lenght === 0) return notFound();
 
-
-
   const produits = await AllProduits.filter(
     (pd) => pd.boutiqueId == produit.boutiqueId
   );
@@ -34,11 +32,14 @@ export default async function Espaceproduit({ params }) {
         </h1>
       </header>
 
-      <main className="max-w-[1200px] mx-auto  mt-[30px] max-[1300px]:mx-[50px]">
+      <main className="max-w-[1200px] min-[760px]:mx-auto mt-[30px]">
         <section className="mb-[100px]">
+          <h2 className="text-center text-[30px] font-bold mb-[30px]">
+            {produit.nomProduit}
+          </h2>
           {
-            <div className="flex max-[760px]:flex-col ">
-              <div className="w-[50%] max-[760px]:w-full h-[450px] mr-[30px] relative">
+            <div className="flex max-[760px]:flex-col items-center max-[1300px]:mx-[50px] max-[900px]:mx-[20px]">
+              <div className="w-[50%] max-[760px]:w-full mb-[20px] min-[760px]:h-[450px] max-[760px]:h-[350px] min-[760px]:mr-[30px] relative">
                 <span className="absolute bg-white right-0 top-0 px-[15px] z-10 font-bold text-xl text-red-600">
                   {produit.price} FCFA
                 </span>
@@ -75,16 +76,16 @@ export default async function Espaceproduit({ params }) {
           }
         </section>
 
-        <section className="grid grid-cols-3 max-[1000px]:grid-cols-2  max-[444px]:grid-cols-1 gap-4 ">
+        <section className="max-w-[1400px]  mx-auto max-[600px]:mx-[5px]   grid grid-cols-4 max-[1000px]:grid-cols-3 max-[600px]:grid-cols-2  gap-3">
           {produits.map((pd) => {
             return (
               <Link
                 key={pd.id}
                 href={`/MarketEspace/${produit.boutiqueId}-${produit.boutique.name}/${pd.id}`}
               >
-                <div className="bg-white border border-gray-200 shadow-md relative  w-full max-w-sm rounded-lg overflow-hidden mx-auto mt-4">
-                  <span className="absolute bg-white right-0 top-0 px-[15px] z-10 font-bold text-xl text-red-600">
-                    {pd.price} FCFA
+                <div className="bg-white border border-gray-200 shadow-md relative  w-full max-w-sm  overflow-hidden mx-auto">
+                  <span className="absolute bg-white right-0 top-0  z-10 font-bold min-[1000px]:text-xl text-red-600">
+                    <p className="px-[10px]">{pd.price} FCFA</p>
                   </span>
                   <div className="aspect-[3/2] ">
                     <Image src={pd.image} alt={pd.nomProduit} fill />

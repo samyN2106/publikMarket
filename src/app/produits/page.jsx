@@ -104,15 +104,15 @@ export default function Produit() {
         <Search onSearch={handleSearch} />
       </HeaderProduits>
 
-      <article className="max-w-[1400px] mx-auto max-[1460]:mx-[20px]  grid grid-cols-4 max-[1000px]:grid-cols-3 max-[600px]:grid-cols-2 max-[418px]:grid-cols-1 gap-4 ">
+      <article className="max-w-[1400px]  mx-auto max-[600px]:mx-[5px]   grid grid-cols-4 max-[1000px]:grid-cols-3 max-[600px]:grid-cols-2  gap-3 ">
         {(query ? produitsSearch : produits).map((pd) => {
           return (
             <Link key={pd.id} href={`/produits/${pd.id}`}>
-              <div className="bg-white border border-gray-200 shadow-md relative shrink-0  w-full max-w-sm rounded-lg overflow-hidden mx-auto mt-4">
-                <div className="absolute bg-white right-0 top-0 px-[15px] z-10 font-bold text-[23px] text-red-600">
-                  {pd.price} FCFA
+              <div className="bg-white border border-gray-200 shadow-md relative shrink-0   w-full max-w-sm h-auto overflow-hidden mx-auto ">
+                <div className="absolute bg-white right-0 top-0  z-10 font-bold min-[1000px]:text-xl text-red-600">
+                  <p className="px-[10px]">{pd.price} FCFA</p>
                 </div>
-                <div className="aspect-[3/2] ">
+                <div className="aspect-[3/2]">
                   <Image src={pd.image} alt={pd.nomProduit} fill />
                 </div>
               </div>

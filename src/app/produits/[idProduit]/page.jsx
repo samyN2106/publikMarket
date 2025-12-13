@@ -63,7 +63,7 @@ export default async function produitId({ params }) {
             </h2>
             {
               <div className="flex max-[760px]:flex-col items-center max-[1300px]:mx-[50px] max-[900px]:mx-[20px]">
-                <div className="w-[50%] max-[760px]:w-[400px] max-[465px]:w-[300px] mb-[20px] min-[760px]:h-[450px] max-[760px]:h-[300px] min-[760px]:mr-[30px] relative">
+                <div className="w-[50%] max-[760px]:w-full mb-[20px] min-[760px]:h-[450px] max-[760px]:h-[350px] min-[760px]:mr-[30px] relative">
                   <span className="absolute bg-white right-0 top-0 px-[15px] z-10 font-bold text-xl text-red-600">
                     {Currentproduit.price}FCFA
                   </span>
