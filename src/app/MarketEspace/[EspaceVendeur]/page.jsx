@@ -14,7 +14,6 @@ export default async function EspaceVente({ params }) {
   const boutiqueId = parseInt(id);
 
 
-
   const produits = await AllProduits.filter(
     (pd) => pd.boutiqueId === boutiqueId
   );

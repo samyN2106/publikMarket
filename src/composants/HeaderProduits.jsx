@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 export default function HeaderProduits({ children }) {
   const [session, setSession] = useState(null);
-  
+
   useEffect(() => {
     async function getSession() {
       try {
@@ -24,7 +24,9 @@ export default function HeaderProduits({ children }) {
         {children}
         <div className="max-[816px]:w-full flex justify-end">
           {session ? (
-            <Button href="/dashboard">Publier un produit</Button>
+            <div className="flex flex-col  gap-1.5 justify-end">
+              <Button href="/dashboard">Publier un produit</Button>
+            </div>
           ) : (
             <Button href="/">Publier un produit</Button>
           )}
