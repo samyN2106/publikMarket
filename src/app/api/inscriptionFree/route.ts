@@ -80,6 +80,12 @@ export async function POST(request: NextRequest) {
       sameSite: "lax",
     });
 
+    await fetch("/api/send-welcome", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: data.email, name: data.boutique }),
+    });
+
     return reponse;
   } catch (error) {
     return NextResponse.json(
