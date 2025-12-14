@@ -22,12 +22,13 @@ export async function POST(request: NextRequest) {
     reponse.cookies.set({
       name: "myapp_session",
       value: encrypted,
-      httpOnly: true, // le JS côté client ne peut pas le lire
+      httpOnly: true,
       path: "/",
-      maxAge: 2 * 365 * 24 * 60 * 60, // 2 ans en secondes
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      maxAge: 2 * 365 * 24 * 60 * 60, // 2 ans
+      secure: true, // toujours true en prod
+      sameSite: "none", // pour éviter le blocage cross-site
     });
+
     return reponse;
   } catch (error) {
     return NextResponse.json({
