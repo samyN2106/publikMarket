@@ -6,11 +6,22 @@ export async function POST(req: NextRequest) {
 
   // Configurer ton transport SMTP
   const transporter = nodemailer.createTransport({
-    service: "gmail", // ou smtp.office365.com, etc.
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
+  });
+
+  // Vérification de la connexion SMTP
+  transporter.verify((error, success) => {
+    if (error) {
+      console.error("Erreur de connexion SMTP :", error);
+    } else {
+      console.log("Connexion SMTP réussie :", success);
+    }
   });
 
   // Contenu du mail
@@ -28,11 +39,10 @@ export async function POST(req: NextRequest) {
 
   try {
     await transporter.sendMail(mailOptions);
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
-    );
+  } catch (error: any) {
+    console.error("Erreur SMTP :", error.message);
+    // Tu peux aussi logguer dans Supabase ou ignorer
   }
+
+  return NextResponse.json({ success: true });
 }

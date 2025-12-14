@@ -14,8 +14,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const email = data.email.trim().toLowerCase();
+
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(data.email)) {
+    if (!emailRegex.test(email)) {
       return NextResponse.json({ message: "Email invalide" }, { status: 400 });
     }
 
@@ -31,12 +33,12 @@ export async function POST(request: NextRequest) {
     }
 
     const existingBoutique = await prisma.boutique.findUnique({
-      where: { email: data.email },
+      where: { email },
     });
 
     if (existingBoutique) {
       return NextResponse.json(
-        { message: "Ce email est deja utilise" },
+        { message: "Cet email est deja utilise" },
         { status: 409 }
       );
     }
@@ -49,7 +51,7 @@ export async function POST(request: NextRequest) {
     const Boutique = await prisma.boutique.create({
       data: {
         name: data.boutique,
-        email: data.email,
+        email: email,
         password: hashedPassword,
       },
     });
@@ -66,7 +68,10 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const reponse = NextResponse.json({ status: 200 });
+    const reponse = NextResponse.json(
+      { message: "Inscription réussie" },
+      { status: 200 }
+    );
 
     const encrypted = encrypt(String(Boutique.id));
 
@@ -80,18 +85,22 @@ export async function POST(request: NextRequest) {
       sameSite: "lax",
     });
 
-    await fetch("/api/send-welcome", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: data.email, name: data.boutique }),
-    });
+    try {
+      await fetch("/api/send-welcome", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, name: data.boutique }),
+      });
+    } catch (err) {
+      console.error("Erreur lors de l'envoi du mail :", err);
+      // Ne bloque pas l'inscription
+    }
 
     return reponse;
   } catch (error) {
     return NextResponse.json(
       {
-        message:
-          "Impossible de créer le compte par soucis du serveur. Réessayez plus tard",
+        message: "Erreur depuis le serveur.",
         erreur: error,
       },
 

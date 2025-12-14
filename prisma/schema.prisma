@@ -19,7 +19,6 @@ model Boutique {
 
 model Product {
   id             Int      @id @default(autoincrement())
-  boutiqueId     Int
   description    String?
   price          String?
   image          String?
@@ -27,18 +26,19 @@ model Product {
   nomProduit     String?
   numAContacter  String?
   pointLivraison String?
-  boutique       Boutique     @relation(fields: [boutiqueId], references: [id])
+  boutiqueId     Int
+  boutique       Boutique @relation(fields: [boutiqueId], references: [id])
 }
 
 model Payment {
   id            Int       @id @default(autoincrement())
-  boutiqueId    Int       @unique
-  montant       Float
   paymentMethod String?
   paymentStatus String    @default("pending")
   createdAt     DateTime  @default(now())
   expiresAt     DateTime?
   nbrProduits   Int
   plan          String?
-  boutique      Boutique      @relation(fields: [boutiqueId], references: [id])
+  boutiqueId    Int       @unique
+  montant       Float
+  boutique      Boutique  @relation(fields: [boutiqueId], references: [id])
 }
