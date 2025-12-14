@@ -85,17 +85,6 @@ export async function POST(request: NextRequest) {
       sameSite: "lax",
     });
 
-    try {
-      await fetch("/api/send-welcome", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name: data.boutique }),
-      });
-    } catch (err) {
-      console.error("Erreur lors de l'envoi du mail :", err);
-      // Ne bloque pas l'inscription
-    }
-
     return reponse;
   } catch (error) {
     return NextResponse.json(
