@@ -76,15 +76,17 @@ export async function POST(request: NextRequest) {
 
     const encrypted = encrypt(String(Boutique.id));
 
-
     reponse.cookies.set({
       name: "myapp_session",
       value: encrypted,
       httpOnly: true,
       path: "/",
       maxAge: 2 * 365 * 24 * 60 * 60, // 2 ans
-      secure: true, // toujours true en prod
-      sameSite: "none", // OBLIGATOIRE
+      // secure: true, // toujours true en prod
+      // sameSite: "none", // OBLIGATOIRE
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      // path: "/",
     });
 
     try {
