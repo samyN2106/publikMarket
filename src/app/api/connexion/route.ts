@@ -19,11 +19,9 @@ export async function POST(request: NextRequest) {
     const reponse = NextResponse.json({ status: 200 });
 
     // const encrypted = encrypt(String(boutique.id));
-
-    await fetch("/api/init-cookie", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ boutiqueId: boutique.id }),
+    
+    await fetch(`/api/init-cookie?id=${boutique.id}`, {
+      method: "GET",
     });
 
     // reponse.cookies.set({

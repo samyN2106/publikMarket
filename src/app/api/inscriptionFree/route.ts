@@ -73,11 +73,10 @@ export async function POST(request: NextRequest) {
       { message: "Inscription réussie" },
       { status: 200 }
     );
+    
 
-    await fetch("/api/init-cookie", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ boutiqueId: Boutique.id }),
+    await fetch(`/api/init-cookie?id=${Boutique.id}`, {
+      method: "GET",
     });
 
     // reponse.cookies.set({

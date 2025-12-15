@@ -3,9 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
   // On récupère l'ID envoyé depuis le frontend après inscription
-  const { boutiqueId } = await req.json();
+   const { searchParams } = new URL(req.url);
+  const boutiqueId = searchParams.get("id");
 
   if (!boutiqueId) {
     return NextResponse.json(
