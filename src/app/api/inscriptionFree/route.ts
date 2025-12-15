@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
       path: "/",
       maxAge: 2 * 365 * 24 * 60 * 60, // 2 ans
       secure: true, // toujours true en prod
-      sameSite: "lax", // ou "none" si cross-domain
+      sameSite: "none", // OBLIGATOIRE
     });
 
     try {
