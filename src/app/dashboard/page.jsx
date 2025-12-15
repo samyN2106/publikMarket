@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { decrypt } from "@/lib/crypto";
+// import { decrypt } from "@/lib/crypto";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 
@@ -11,7 +11,7 @@ export default async function Dashboard() {
   const setCookies = await cookies();
   const session = setCookies.get("myapp_session")?.value;
   if (!session) redirect("/");
-  const boutiqueId = decrypt(session);
+  const boutiqueId = session;
 
   const reponse = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/paiement/${boutiqueId}`,

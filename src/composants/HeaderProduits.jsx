@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/composants/Button";
 import { useState, useEffect } from "react";
-import { decrypt } from "@/lib/crypto";
+// import { decrypt } from "@/lib/crypto";
 
 export default function HeaderProduits({ children }) {
   const [session, setSession] = useState(null);
@@ -12,7 +12,7 @@ export default function HeaderProduits({ children }) {
       try {
         const res = await fetch("/api/session");
         const data = await res.json();
-        setSession(decrypt(data.session));
+        setSession(data.session);
       } catch (err) {
         console.error("Erreur lors de la récupération de la session:", err);
       }

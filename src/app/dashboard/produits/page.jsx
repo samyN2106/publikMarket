@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { decrypt } from "@/lib/crypto";
+// import { decrypt } from "@/lib/crypto";
 import Image from "next/image";
 import { getProduits } from "@/app/getProduits";
 
@@ -14,7 +14,7 @@ export default async function Produit() {
   const session = setCookies.get("myapp_session")?.value;
   if (!session) redirect("/");
   const AllProduits = await getProduits();
-  const boutiqueId = await decrypt(session);
+  const boutiqueId = session
   const produitsAdd = AllProduits.filter(
     (pd) => pd.boutiqueId === parseInt(boutiqueId)
   );
