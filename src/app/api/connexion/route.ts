@@ -18,12 +18,11 @@ export async function POST(request: NextRequest) {
 
     const reponse = NextResponse.json({ status: 200 });
 
-    // const encrypted = encrypt(String(boutique.id));
-
+    const encrypted = encrypt(String(boutique.id));
 
     reponse.cookies.set({
       name: "myapp_session",
-      value: String(boutique.id),
+      value: encrypted,
       httpOnly: true,
       path: "/",
       maxAge: 2 * 365 * 24 * 60 * 60, // 2 ans
