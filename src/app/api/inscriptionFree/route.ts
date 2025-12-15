@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import bcryptjs from "bcryptjs";
-import { encrypt } from "@/lib/crypto";
+
 import { NextRequest, NextResponse } from "next/server";
 export const runtime = "nodejs";
 
@@ -74,17 +74,21 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
 
-    const encrypted = encrypt(String(Boutique.id));
-
-    reponse.cookies.set({
-      name: "myapp_session",
-      value: String(123),
-      httpOnly: true,
-      path: "/",
-      maxAge: 2 * 365 * 24 * 60 * 60, // 2 ans
-      secure: true, // toujours true en prod
-      sameSite: "none", // OBLIGATOIRE
+    await fetch("/api/init-cookie", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ boutiqueId: Boutique.id }),
     });
+
+    // reponse.cookies.set({
+    //   name: "myapp_session",
+    //   value: String(123),
+    //   httpOnly: true,
+    //   path: "/",
+    //   maxAge: 2 * 365 * 24 * 60 * 60, // 2 ans
+    //   secure: true, // toujours true en prod
+    //   sameSite: "none", // OBLIGATOIRE
+    // });
 
     try {
       await fetch("/api/send-welcome", {
@@ -94,7 +98,6 @@ export async function POST(request: NextRequest) {
       });
     } catch (err) {
       console.error("Erreur lors de l'envoi du mail :", err);
-      // Ne bloque pas l'inscription
     }
 
     return reponse;

@@ -1,16 +1,29 @@
 // app/api/init-cookie/route.ts
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-export async function GET() {
-  const cookieValue = "123"; // valeur simple pour test
+export async function POST(req: NextRequest) {
+  // On récupère l'ID envoyé depuis le frontend après inscription
+  const { boutiqueId } = await req.json();
 
-  const response = NextResponse.json({ message: "Cookie initialisé", value: cookieValue });
+  if (!boutiqueId) {
+    return NextResponse.json(
+      { error: "Boutique ID manquant" },
+      { status: 400 }
+    );
+  }
 
+  // Création de la réponse
+  const response = NextResponse.json({
+    message: "Cookie initialisé avec l'ID boutique",
+    boutiqueId,
+  });
+
+  // Pose du cookie
   response.cookies.set({
     name: "myapp_session",
-    value: cookieValue,
+    value: String(boutiqueId), // ici tu peux mettre encrypt(boutiqueId) si tu veux chiffrer
     httpOnly: true,
     path: "/",
     secure: true,

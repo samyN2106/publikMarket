@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
-import { encrypt } from "@/lib/crypto";
+// import { encrypt } from "@/lib/crypto";
 export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
@@ -18,17 +18,23 @@ export async function POST(request: NextRequest) {
 
     const reponse = NextResponse.json({ status: 200 });
 
-    const encrypted = encrypt(String(boutique.id));
+    // const encrypted = encrypt(String(boutique.id));
 
-    reponse.cookies.set({
-      name: "myapp_session",
-      value: String(123),
-      httpOnly: true,
-      path: "/",
-      maxAge: 2 * 365 * 24 * 60 * 60, // 2 ans
-      secure: true, // toujours true en prod
-      sameSite: "none", // OBLIGATOIRE
+    await fetch("/api/init-cookie", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ boutiqueId: boutique.id }),
     });
+
+    // reponse.cookies.set({
+    //   name: "myapp_session",
+    //   value: String(123),
+    //   httpOnly: true,
+    //   path: "/",
+    //   maxAge: 2 * 365 * 24 * 60 * 60, // 2 ans
+    //   secure: true, // toujours true en prod
+    //   sameSite: "none", // OBLIGATOIRE
+    // });
 
     return reponse;
   } catch (error) {
