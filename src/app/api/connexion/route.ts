@@ -20,6 +20,9 @@ export async function POST(request: NextRequest) {
 
     const encrypted = encrypt(String(boutique.id));
 
+        console.log("SESSION_SECRET:", process.env.SESSION_SECRET);
+    console.log("Encrypted session:", encrypted);
+
     reponse.cookies.set({
       name: "myapp_session",
       value: encrypted,
