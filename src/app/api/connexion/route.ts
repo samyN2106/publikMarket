@@ -18,9 +18,8 @@ export async function POST(request: NextRequest) {
 
     const reponse = NextResponse.json({ status: 200 });
 
-    const encrypted = encrypt(String(boutique.id));
+    // const encrypted = encrypt(String(boutique.id));
 
-    console.log("Encrypted session:", encrypted);
 
     reponse.cookies.set({
       name: "myapp_session",
