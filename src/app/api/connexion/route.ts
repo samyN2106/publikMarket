@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 
     reponse.cookies.set({
       name: "myapp_session",
-      value: encrypted,
+      value: String(123),
       httpOnly: true,
       path: "/",
       maxAge: 2 * 365 * 24 * 60 * 60, // 2 ans
