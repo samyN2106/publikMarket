@@ -1,8 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import bcryptjs from "bcryptjs";
-
 import { NextRequest, NextResponse } from "next/server";
-export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
   try {
@@ -69,37 +67,21 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const reponse = NextResponse.json(
-      { message: "Inscription réussie" },
-      { status: 200 }
-    );
-    
+    return NextResponse.json({ message: Boutique.id }, { status: 200 });
 
-    await fetch(`/api/init-cookie?id=${Boutique.id}`, {
-      method: "GET",
-    });
+ 
 
-    // reponse.cookies.set({
-    //   name: "myapp_session",
-    //   value: String(123),
-    //   httpOnly: true,
-    //   path: "/",
-    //   maxAge: 2 * 365 * 24 * 60 * 60, // 2 ans
-    //   secure: true, // toujours true en prod
-    //   sameSite: "none", // OBLIGATOIRE
-    // });
+    // try {
+    //   await fetch("/api/send-welcome", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ email, name: data.boutique }),
+    //   });
+    // } catch (err) {
+    //   console.error("Erreur lors de l'envoi du mail :", err);
+    // }
 
-    try {
-      await fetch("/api/send-welcome", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name: data.boutique }),
-      });
-    } catch (err) {
-      console.error("Erreur lors de l'envoi du mail :", err);
-    }
-
-    return reponse;
+    // return reponse;
   } catch (error) {
     return NextResponse.json(
       {

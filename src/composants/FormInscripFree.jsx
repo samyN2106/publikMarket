@@ -39,6 +39,21 @@ export default function FormInscripFree() {
       if (reponse.ok) {
         setLoading(false);
         router.push("/produits");
+
+        const handleCreateCookie = async () => {
+          await fetch("/api/createCookies", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              NomCookies: "myapp_session",
+              CookiesValue: result.message,
+            }),
+          });
+        };
+
+        handleCreateCookie();
       }
 
       if (!reponse.ok) {

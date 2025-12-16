@@ -7,9 +7,9 @@ export default function Sidebar() {
   const router = useRouter();
   const [afficherSivbar, setAfficherSivbar] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  
+
   const deconnexion = async () => {
-    await fetch("/api/deconnexion", { method: "POST" });
+    await fetch("/api/deconnexion", { method: "DELETE" });
     setShowModal(false);
     router.push("/connexion");
   };
@@ -44,8 +44,6 @@ export default function Sidebar() {
       ) : (
         ""
       )}
-
-      
 
       {!afficherSivbar ? (
         <div

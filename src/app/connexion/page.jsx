@@ -31,6 +31,21 @@ export default function Connexion() {
       if (reponse.ok) {
         router.push("/produits");
         setLoading(false);
+
+        const handleCreateCookie = async () => {
+          await fetch("/api/createCookies", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              NomCookies: "myapp_session",
+              CookiesValue: result.message,
+            }),
+          });
+        };
+
+        handleCreateCookie();
       } else if (reponse.status === 401) {
         setErreurConnexion(true);
         setLoading(false);

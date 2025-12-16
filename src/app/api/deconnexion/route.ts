@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-export async function POST() {
-  const response = NextResponse.json({ status: 200 });
+export async function DELETE() {
+  const response = NextResponse.json({ message: "Déconnecté" });
 
   response.cookies.set({
     name: "myapp_session",

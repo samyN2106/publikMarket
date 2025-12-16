@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
-// import { encrypt } from "@/lib/crypto";
-export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,25 +14,7 @@ export async function POST(request: NextRequest) {
     const isValid = await bcrypt.compare(data.password, boutique.password);
     if (!isValid) return NextResponse.json({ error: null }, { status: 401 });
 
-    const reponse = NextResponse.json({ status: 200 });
-
-    // const encrypted = encrypt(String(boutique.id));
-    
-    await fetch(`/api/init-cookie?id=${boutique.id}`, {
-      method: "GET",
-    });
-
-    // reponse.cookies.set({
-    //   name: "myapp_session",
-    //   value: String(123),
-    //   httpOnly: true,
-    //   path: "/",
-    //   maxAge: 2 * 365 * 24 * 60 * 60, // 2 ans
-    //   secure: true, // toujours true en prod
-    //   sameSite: "none", // OBLIGATOIRE
-    // });
-
-    return reponse;
+    return NextResponse.json({ message: boutique.id }, { status: 200 });
   } catch (error) {
     return NextResponse.json({
       message: "Erreur du serveur ressayez plus tard",

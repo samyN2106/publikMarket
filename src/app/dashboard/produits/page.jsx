@@ -1,20 +1,19 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-// import { decrypt } from "@/lib/crypto";
 import Image from "next/image";
 import { getProduits } from "@/app/getProduits";
 
-export const metadata={
-  title:"Produits | PublikMarket"
-}
+export const metadata = {
+  title: "Produits | PublikMarket",
+};
 
 export default async function Produit() {
   const setCookies = await cookies();
   const session = setCookies.get("myapp_session")?.value;
   if (!session) redirect("/");
   const AllProduits = await getProduits();
-  const boutiqueId = session
+  const boutiqueId = String(session);
   const produitsAdd = AllProduits.filter(
     (pd) => pd.boutiqueId === parseInt(boutiqueId)
   );
@@ -25,7 +24,10 @@ export default async function Produit() {
       <div className="grid grid-cols-3 max-[840px]:grid-cols-2  max-[418px]:grid-cols-1 gap-3 ">
         {produitsAdd.map((produit) => {
           return (
-            <Link key={produit.id} href={`/dashboard/produits/modifierProduit/${produit.id}`}>
+            <Link
+              key={produit.id}
+              href={`/dashboard/produits/modifierProduit/${produit.id}`}
+            >
               <div className="bg-white border border-gray-200 shadow-md relative  w-full max-w-sm overflow-hidden mx-auto mt-4">
                 <div className="aspect-[3/2] ">
                   <Image src={produit.image} alt={produit.nomProduit} fill />
