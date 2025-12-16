@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
-import { decrypt } from "@/lib/crypto";
 import { getProduits } from "@/app/getProduits";
 
 export async function POST(request: NextRequest) {
   try {
     const setCookies = await cookies();
     const session = setCookies.get("myapp_session")?.value;
-    const boutiqueId = decrypt(session);
+    const boutiqueId = session || "";
     const data = await request.json();
 
     // return NextResponse.json({
