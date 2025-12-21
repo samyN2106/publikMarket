@@ -67,21 +67,17 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    try {
+      await fetch("/api/send-welcome", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, name: data.boutique }),
+      });
+    } catch (err) {
+      console.error("Erreur lors de l'envoi du mail :", err);
+    }
+
     return NextResponse.json({ message: Boutique.id }, { status: 200 });
-
- 
-
-    // try {
-    //   await fetch("/api/send-welcome", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ email, name: data.boutique }),
-    //   });
-    // } catch (err) {
-    //   console.error("Erreur lors de l'envoi du mail :", err);
-    // }
-
-    // return reponse;
   } catch (error) {
     return NextResponse.json(
       {

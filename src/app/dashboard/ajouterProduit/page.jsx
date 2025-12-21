@@ -5,27 +5,30 @@ import Image from "next/image";
 
 import { useRouter } from "next/navigation";
 import { useTraiterImageProduit } from "@/hooks/useTraiterImageProduit";
+import NavbarDashboard from "@/composants/NavbarDashboard";
 
 export default function AjouterProduit() {
   const { setFile, imageUrl, erreurFile } = useTraiterImageProduit();
   const [ficher, setFicher] = useState(null);
   const router = useRouter();
+  const [erreurForm, setErreurForm] = useState({ error: false, message: "" });
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const [erreurForm, setErreurForm] = useState({ error: false, message: "" });
-  const [loading, setLoading] = useState(false);
-
+  // traiter les donnees du formulaire
   const onSubmit = async (data) => {
+    // console.log(data);
+    // console.log(ficher);
+
     setLoading(true);
+
     setFile(ficher);
 
     if (imageUrl) {
-      data.image = imageUrl;
-
       const reponse = await fetch("/api/addProduit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -75,8 +78,12 @@ export default function AjouterProduit() {
     );
 
   return (
-    <main className="flex flex-col w-full min-[540]:p-[30px] max-[540]:py-[30px] max-[540]:pr-[10px] min-[1100px]:ml-64">
-      <h2 className="text-3xl font-bold mb-8">Ajouter Produit</h2>
+    <main className="flex flex-col w-full min-[540]:p-[30px] max-[540]:py-[30px] max-[540]:p-[10px] min-[1100px]:ml-64">
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-3xl font-bold">Ajouter Produit</h2>
+        <NavbarDashboard />
+      </div>
+
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-6 rounded-xl relative  w-full"
@@ -171,8 +178,8 @@ export default function AjouterProduit() {
         </div>
         <div className=" mb-6">
           <input
-            accept="image/*"
             onChange={(e) => setFicher(e.target.files?.[0])}
+            accept="image/*"
             type="file"
             className="w-full border p-2 rounded-lg  outline-0"
           />
@@ -183,6 +190,8 @@ export default function AjouterProduit() {
           )}
         </div>
         <button
+          // onClick={() => setLoading(true)}
+          // disabled={loading}
           type="submit"
           className="bg-[#9e86ba] text-white px-4 py-2 font-semibold rounded-lg hover:bg-[#9d92a8]"
         >

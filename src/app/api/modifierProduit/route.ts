@@ -86,25 +86,6 @@ export async function POST(request: NextRequest) {
           { status: 200 }
         );
       }
-
-      //   await prisma.product.create({
-      //     data: {
-      //       boutiqueId: parseInt(boutiqueId),
-      //       nomProduit: data.nomProduit,
-      //       description: data.description,
-      //       price: data.prixProduit,
-      //       numAContacter: data.numeroAcontacter,
-      //       pointLivraison: data.pointDeLivraison,
-      //       image: data.image,
-      //     },
-      //   });
-
-      return NextResponse.json(
-        {
-          message: "Produit modifie",
-        },
-        { status: 200 }
-      );
     } else if (nbrProduitRestant === 0) {
       await prisma.payment.delete({
         where: {
@@ -120,10 +101,10 @@ export async function POST(request: NextRequest) {
       );
     }
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       {
         message: "Erreur sur le serveur,ressayez plutard",
-        datail: error,
       },
       { status: 500 }
     );

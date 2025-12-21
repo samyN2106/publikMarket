@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import { getProduits } from "@/app/getProduits";
+import NavbarDashboard from "@/composants/NavbarDashboard";
 
 export const metadata = {
   title: "Produits | PublikMarket",
@@ -20,8 +21,12 @@ export default async function Produit() {
 
   return (
     <main className="flex-1 p-[30px] min-[1100px]:ml-64">
-      <h2 className="text-3xl font-bold mb-8">Produits</h2>
-      <div className="grid grid-cols-3 max-[840px]:grid-cols-2  max-[418px]:grid-cols-1 gap-3 ">
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-3xl font-bold">Produits</h2>
+        <NavbarDashboard />
+      </div>
+      
+      <div className="grid grid-cols-3 max-[600px]:grid-cols-2 gap-3  ">
         {produitsAdd.map((produit) => {
           return (
             <Link

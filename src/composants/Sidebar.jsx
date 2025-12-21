@@ -2,22 +2,23 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDashboardContext } from "../app/Context/dashboardContext";
 
 export default function Sidebar() {
   const router = useRouter();
-  const [afficherSivbar, setAfficherSivbar] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const { showSidebar, setShowSidebar } = useDashboardContext();
+  const [showBlocDeconnexion, setShowBlocDeconnexion] = useState(false);
 
   const deconnexion = async () => {
     await fetch("/api/deconnexion", { method: "DELETE" });
-    setShowModal(false);
+    setShowBlocDeconnexion(false);
     router.push("/connexion");
   };
 
   return (
     <>
-      {showModal ? (
-        <div className="fixed w-full inset-0 bg-[#0000006b] bg-opacity-50 flex items-center justify-center z-50">
+      {showBlocDeconnexion ? (
+        <div className="fixed w-full inset-0 bg-[#0000006b] bg-opacity-50 flex items-center justify-center z-20">
           <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-md">
             <h2 className="text-lg font-semibold mb-4">
               Confirmer la déconnexion
@@ -27,7 +28,7 @@ export default function Sidebar() {
             </p>
             <div className="flex justify-end space-x-4">
               <button
-                onClick={() => setShowModal(false)}
+                onClick={() => setShowBlocDeconnexion(false)}
                 className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
               >
                 Annuler
@@ -45,41 +46,14 @@ export default function Sidebar() {
         ""
       )}
 
-      {!afficherSivbar ? (
-        <div
-          onClick={() => setAfficherSivbar(true)}
-          className="m-[10px] hidden max-[1100px]:block"
-        >
-          <span className={"cursor-pointer "}>
-            <svg
-              className={`size-9 `}
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.9}
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 9h16.5m-16.5 6.75h16.5"
-              />
-            </svg>
-          </span>
-        </div>
-      ) : (
-        ""
-      )}
-
-      {afficherSivbar ? (
+      {showSidebar ? (
         <aside
-          style={{ boxShadow: " 3px -5px 13px 0px black" }}
-          className={`${"w-64 bg-[#494646] text-white fixed h-full  z-10 p-6  max-[1100px]:shadow-[3px -1px 10px 0px #0f0f0f]"} `}
+          className={`${"w-64 bg-[#494646] z-10 text-white fixed h-full  p-6  max-[1100px]:shadow-[3px -1px 10px 0px #0f0f0f]"}  `}
         >
-          <div className=" mb-[20px]">
+          <div className="min-[1100px]:hidden mb-[20px]">
             <span
               className="cursor-pointer"
-              onClick={() => setAfficherSivbar(false)}
+              onClick={() => setShowSidebar(false)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +107,7 @@ export default function Sidebar() {
               </li>
               <li>
                 <p
-                  onClick={() => setShowModal(true)}
+                  onClick={() => setShowBlocDeconnexion(true)}
                   className="hover:underline cursor-pointer"
                 >
                   Deconnexion
@@ -147,7 +121,7 @@ export default function Sidebar() {
       )}
 
       <aside
-        className={`${"w-64 bg-[#494646] text-white fixed h-full  p-6 max-[1100px]:hidden max-[1100px]:shadow-[3px -1px 10px 0px #0f0f0f]"} `}
+        className={`${"w-64 bg-[#494646] max-[1100px]:hidden z-10 text-white fixed h-full  p-6  "}  `}
       >
         <div>
           <h2 className="text-2xl font-bold mb-6">Admin Dashboard</h2>
@@ -183,12 +157,7 @@ export default function Sidebar() {
               </Link>
             </li>
             <li>
-              <p
-                onClick={() => setShowModal(true)}
-                className="hover:underline cursor-pointer"
-              >
-                Deconnexion
-              </p>
+              <p className="hover:underline cursor-pointer">Deconnexion</p>
             </li>
           </ul>
         </div>

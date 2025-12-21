@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import NavbarDashboard from "@/composants/NavbarDashboard";
 
 export const metadata = {
   title: "Dashboard | PublikMartket",
@@ -28,13 +29,16 @@ export default async function Dashboard() {
   if (!paiement) {
     return (
       <main className="relative w-full min-[1100px]:ml-64 flex flex-col justify-center items-center">
+        <div className="flex justify-between items-center mb-8">
+          <NavbarDashboard />
+        </div>
         <Image
           src="/icone_alertAbonnement.png"
           alt="icone alert fin abonnement"
           width={500}
           height={500}
         />
-        <p className="text-gray-400 text-3xl font-extrabold">
+        <p className="text-gray-400 text-center text-3xl font-extrabold">
           Vous n'avez pas d'abonnement
         </p>
       </main>
@@ -44,7 +48,10 @@ export default async function Dashboard() {
   if (paiement) {
     return (
       <main className="flex-1 p-[30px] min-[1100px]:ml-64">
-        <h2 className="text-3xl font-bold mb-8">Acceuil</h2>
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-3xl font-bold">Acceuil</h2>
+          <NavbarDashboard />
+        </div>
         <div className="flex justify-center">
           <div className="grid grid-cols-2  max-[570px]:grid-cols-1 gap-4 ">
             <div className="text-center bg-white p-[30px]">

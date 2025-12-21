@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useTraiterImageProduit } from "@/hooks/useTraiterImageProduit";
+import NavbarDashboard from "@/composants/NavbarDashboard";
 
 export default function MdofifProduit() {
   const { idProduit } = useParams();
@@ -18,6 +19,7 @@ export default function MdofifProduit() {
     useState(false);
   const [loading, setLoading] = useState(false);
 
+  // function pour effacer le produit
   async function deleteProduit() {
     const reponse = await fetch(`/api/${idProduit}`, {
       method: "DELETE",
@@ -31,6 +33,7 @@ export default function MdofifProduit() {
     }
   }
 
+  // recuperer le produit via son id
   useEffect(() => {
     async function fetchProduit() {
       const reponse = await fetch(`/api/produit/${idProduit}`);
@@ -42,18 +45,33 @@ export default function MdofifProduit() {
     if (idProduit) fetchProduit();
   }, [idProduit]);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
+  // traiter les donnees du formulaire
   const onSubmit = async (data) => {
-    setLoading(true);
-    setFile(ficher);
+    data.id = idProduit;
+    if (ficher) setFile(ficher);
+
+    if (!ficher) {
+      data.image = produit.image;
+      const reponse = await fetch("/api/modifierProduit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const result = await reponse.json();
+
+      if (!reponse.ok) {
+        setLoading(false);
+        setErreurForm({ error: true, message: result.message });
+      } else {
+        setLoading(false);
+        router.push("/dashboard/produits");
+      }
+    }
+
     if (imageUrl) {
       data.image = imageUrl;
-      data.id = idProduit;
       const reponse = await fetch("/api/modifierProduit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -86,6 +104,7 @@ export default function MdofifProduit() {
   };
 
   if (produit) {
+    // affichage d'erreur
     if (erreurForm.error)
       return (
         <main className="flex flex-col min-[1100px]:ml-64 p-[30px] w-full justify-center  items-center ">
@@ -101,6 +120,7 @@ export default function MdofifProduit() {
 
     return (
       <main className="min-[400px]:p-[30px] w-full max-[400px]:p-[20px] relative min-[1100px]:ml-64">
+        {/* bloc confirmer suprression du produit */}
         {confirmerSupprimerProduit ? (
           <div className="fixed w-full inset-0 bg-[#0000006b] bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-md">
@@ -130,21 +150,23 @@ export default function MdofifProduit() {
           ""
         )}
 
-        <h2 className="text-3xl font-bold mb-8">Modifier produit</h2>
-        <div className="flex w-full gap-[30px] max-[810px]:flex-col-reverse">
-          <div>
-            <Image
-              src={produit.image}
-              width={500}
-              height={400}
-              alt={produit.nomProduit}
-            />
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-3xl font-bold">Modifier produit</h2>
+          <NavbarDashboard />
+        </div>
+
+        <div className="flex w-full gap-[30px] max-[810px]:flex-col-reverse max-[810px]:items-center">
+          <div className="min-[810px]:w-[700px] min-[810px]:h-[600px] max-[810px]:w-[400px] max-[810px]:h-[500px] max-[450px]:w-[350px] max-[450px]:h-[500px] relative">
+            <Image src={produit.image} fill alt={produit.nomProduit} />
           </div>
+
+          {/* formulaire des donnees du produit */}
           <div className="w-full">
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="bg-white p-6 rounded-xl relative shadow-md mb-10 mx-auto "
             >
+              {/* afficher le  chargement */}
               {loading ? (
                 <div className="absolute top-[50%] left-[50%] translate-[-50%]">
                   <Image
@@ -160,83 +182,48 @@ export default function MdofifProduit() {
 
               <div className="mb-4">
                 <input
-                  {...register("nomProduit", {
-                    required: "Donnez un nom au produit",
-                  })}
+                  {...register("nomProduit")}
                   type="text"
                   defaultValue={produit.nomProduit}
                   placeholder="Nom du produit"
                   className="w-full border p-2 rounded-lg  outline-0"
                 />
-                {errors.nomProduit && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.nomProduit.message}
-                  </p>
-                )}
               </div>
               <div className=" mb-4">
                 <textarea
-                  {...register("description", {
-                    required: "Description requise",
-                  })}
+                  {...register("description")}
                   defaultValue={produit.description}
                   placeholder="Description du produit"
                   className="w-full border p-2 rounded-lg  outline-0"
                 />
-                {errors.description && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.description.message}
-                  </p>
-                )}
               </div>
               <div className=" mb-4">
                 <input
-                  {...register("prixProduit", {
-                    required: "Prix requis",
-                  })}
+                  {...register("prixProduit")}
                   type="number"
                   defaultValue={produit.price}
                   placeholder="Prix du produit ex:40.000 FCFA "
                   className="w-full border p-2 rounded-lg  outline-0"
                   min="1"
                 />
-                {errors.prixProduit && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.prixProduit.message}
-                  </p>
-                )}
               </div>
               <div className=" mb-4">
                 <input
-                  {...register("numeroAcontacter", {
-                    required: "Entrez un numero a contacter",
-                  })}
+                  {...register("numeroAcontacter")}
                   type="text"
                   defaultValue={produit.numAContacter}
                   placeholder="Numero a contacter pour le produit"
                   className="w-full border p-2 rounded-lg outline-0"
                 />
-                {errors.numeroAcontacter && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.numeroAcontacter.message}
-                  </p>
-                )}
               </div>
               <div className=" mb-4">
                 <input
-                  {...register("pointDeLivraison", {
-                    required: "Champ requis",
-                  })}
+                  {...register("pointDeLivraison")}
                   type="text"
                   defaultValue={produit.pointLivraison}
                   placeholder="point de livraison. Ex: Abidjan,Bouake......"
                   className="w-full border p-2 rounded-lg outline-0"
                 />
-                {errors.pointDeLivraison && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.pointDeLivraison.message}
-                  </p>
-                )}
               </div>
               <div className=" mb-6">
                 <input
@@ -245,11 +232,6 @@ export default function MdofifProduit() {
                   type="file"
                   className="w-full border p-2 rounded-lg  outline-0"
                 />
-                {!ficher && (
-                  <p className="text-red-500 text-sm mt-1">
-                    Choisissez une image pour le produit
-                  </p>
-                )}
               </div>
               <button
                 onClick={() => setConfirmerSupprimerProduit(true)}
@@ -258,6 +240,9 @@ export default function MdofifProduit() {
                 Supprimer le Produit
               </button>
               <button
+                onClick={() => {
+                  setLoading(true);
+                }}
                 type="submit"
                 className="bg-[#9e86ba] text-white px-4 py-2 font-semibold rounded-lg hover:bg-[#9d92a8]"
               >
