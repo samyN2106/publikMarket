@@ -28,19 +28,21 @@ export default async function Dashboard() {
 
   if (!paiement) {
     return (
-      <main className="relative w-full min-[1100px]:ml-64 flex flex-col justify-center items-center">
-        <div className="flex justify-between items-center mb-8">
+      <main className="relative w-full min-[1100px]:ml-64 p-6">
+        <div className="flex justify-end mb-8">
           <NavbarDashboard />
         </div>
-        <Image
-          src="/icone_alertAbonnement.png"
-          alt="icone alert fin abonnement"
-          width={500}
-          height={500}
-        />
-        <p className="text-gray-400 text-center text-3xl font-extrabold">
-          Vous n'avez pas d'abonnement
-        </p>
+        <div className="flex flex-col justify-between items-center ">
+          <Image
+            src="/icone_alertAbonnement.png"
+            alt="icone alert fin abonnement"
+            width={500}
+            height={500}
+          />
+          <p className="text-gray-400 text-center text-3xl font-extrabold">
+            Vous n'avez pas d'abonnement
+          </p>
+        </div>
       </main>
     );
   }
