@@ -190,8 +190,8 @@ export default function AjouterProduit() {
           )}
         </div>
         <button
-          // onClick={() => setLoading(true)}
-          // disabled={loading}
+          onClick={() => setLoading(true)}
+          disabled={loading}
           type="submit"
           className="bg-[#9e86ba] text-white px-4 py-2 font-semibold rounded-lg hover:bg-[#9d92a8]"
         >
