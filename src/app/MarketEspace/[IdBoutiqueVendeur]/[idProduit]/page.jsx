@@ -47,13 +47,19 @@ export default async function Espaceproduit({ params }) {
               </div>
               <div className="w-[50%] max-[760px]:w-full text-2xl flex flex-col max-[760px]:flex-col-reverse justify-center gap-[50px]">
                 <div>
-                  <p>
-                    <strong style={{ textDecoration: "underline" }}>
+                  <a
+                    href={`tel:${produit.numAContacter}`}
+                    className=" text-red-500"
+                  >
+                    <strong
+                      className="text-black"
+                      style={{ textDecoration: "underline" }}
+                    >
                       Numero(s) a contacter
                     </strong>
                     : {produit.numAContacter}
-                  </p>
-                  <p>
+                  </a>
+                  <p className="mt-[20px]">
                     <strong style={{ textDecoration: "underline" }}>
                       Point(s) de livraison
                     </strong>

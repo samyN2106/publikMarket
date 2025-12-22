@@ -25,6 +25,7 @@ export default function AjouterProduit() {
     if (ficher) setFile(ficher);
 
     if (imageUrl) {
+      data.image = imageUrl;
       const reponse = await fetch("/api/addProduit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
