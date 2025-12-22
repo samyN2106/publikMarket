@@ -26,6 +26,7 @@ export default async function Produit() {
         <NavbarDashboard />
       </div>
       
+      
       <div className="grid grid-cols-3 max-[600px]:grid-cols-2 gap-3  ">
         {produitsAdd.map((produit) => {
           return (

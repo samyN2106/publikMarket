@@ -70,7 +70,7 @@ export default function MdofifProduit() {
       }
     }
 
-    if (imageUrl) {
+    if (ficher && imageUrl) {
       data.image = imageUrl;
       const reponse = await fetch("/api/modifierProduit", {
         method: "POST",
@@ -251,6 +251,13 @@ export default function MdofifProduit() {
             </form>
           </div>
         </div>
+      </main>
+    );
+  } else {
+    return (
+      <main className="w-full flex flex-col justify-center items-center  relative min-[1100px]:ml-64">
+        <Image src="/iconeLoading.gif" width={60} height={60} alt="Loading" />
+        <p className="mt-[30px]">Chargement des donnees....................</p>
       </main>
     );
   }

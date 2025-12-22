@@ -21,12 +21,8 @@ export default function AjouterProduit() {
 
   // traiter les donnees du formulaire
   const onSubmit = async (data) => {
-    // console.log(data);
-    // console.log(ficher);
-
     setLoading(true);
-
-    setFile(ficher);
+    if (ficher) setFile(ficher);
 
     if (imageUrl) {
       const reponse = await fetch("/api/addProduit", {
@@ -190,12 +186,16 @@ export default function AjouterProduit() {
           )}
         </div>
         <button
-          onClick={() => setLoading(true)}
-          disabled={loading}
           type="submit"
-          className="bg-[#9e86ba] text-white px-4 py-2 font-semibold rounded-lg hover:bg-[#9d92a8]"
+          disabled={loading}
+          className={`px-4 py-2 font-semibold rounded-lg text-white
+    ${
+      loading
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-[#9e86ba] hover:bg-[#9d92a8]"
+    }`}
         >
-          Ajouter le produit
+          {loading ? "Chargement..." : "Ajouter le produit"}
         </button>
       </form>
     </main>

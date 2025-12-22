@@ -10,15 +10,6 @@ export async function POST(request: NextRequest) {
     const boutiqueId = session || "";
     const data = await request.json();
 
-    // return NextResponse.json({
-    //   nomProduit: formData.get("nomProduit"),
-    //   description: formData.get("description"),
-    //   prixProduit: formData.get("prixProduit"),
-    //   numeroAcontacter: formData.get("numeroAcontacter"),
-    //   pointDeLivraison: formData.get("pointDeLivraison"),
-    //   file: formData.get("imageProduit"),
-    // });
-
     typeof data.nomProduit as string;
     typeof data.description as string;
     typeof data.prixProduit as string;
