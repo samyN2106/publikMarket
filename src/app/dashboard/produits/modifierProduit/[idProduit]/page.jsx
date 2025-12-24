@@ -21,7 +21,8 @@ export default function MdofifProduit() {
 
   // function pour effacer le produit
   async function deleteProduit() {
-    const reponse = await fetch(`/api/${idProduit}`, {
+
+    const reponse = await fetch(`/api/deleteProduit/${idProduit}`, {
       method: "DELETE",
     });
     const result = await reponse.json();
@@ -234,11 +235,13 @@ export default function MdofifProduit() {
                 />
               </div>
               <button
+                type="button"
                 onClick={() => setConfirmerSupprimerProduit(true)}
                 className="bg-[#9e86ba] max-[1300px]:mb-[20px] text-white px-4 py-2 font-semibold rounded-lg hover:bg-[#9d92a8] mr-[20px]"
               >
                 Supprimer le Produit
               </button>
+
               <button
                 onClick={() => {
                   setLoading(true);
