@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import bcryptjs from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase";
 
 export async function POST(request: NextRequest) {
   try {
@@ -47,11 +48,25 @@ export async function POST(request: NextRequest) {
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + 5);
 
+    const { data: dataSupabase, error: errSupabase } =
+      await supabase.auth.signUp({
+        email: email,
+        password: data.password,
+      });
+
+    if (errSupabase || !dataSupabase.user?.id) {
+      return NextResponse.json(
+        { message: errSupabase?.message || "Erreur Supabase" },
+        { status: 400 }
+      );
+    }
+
     const Boutique = await prisma.boutique.create({
       data: {
         name: data.boutique,
         email: email,
         password: hashedPassword,
+        supabaseId: dataSupabase.user.id,
       },
     });
 
@@ -66,16 +81,6 @@ export async function POST(request: NextRequest) {
         expiresAt: expiresAt,
       },
     });
-
-    try {
-      await fetch("/api/send-welcome", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name: data.boutique }),
-      });
-    } catch (err) {
-      console.error("Erreur lors de l'envoi du mail :", err);
-    }
 
     return NextResponse.json({ message: Boutique.id }, { status: 200 });
   } catch (error) {

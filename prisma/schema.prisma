@@ -12,6 +12,7 @@ model Boutique {
   name      String
   email     String    @unique
   password  String
+  supabaseId  String?  @unique
   createdAt DateTime  @default(now())
   payment   Payment?
   products  Product[]

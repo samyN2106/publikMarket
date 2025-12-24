@@ -157,7 +157,12 @@ export default function Sidebar() {
               </Link>
             </li>
             <li>
-              <p className="hover:underline cursor-pointer">Deconnexion</p>
+              <p
+                onClick={() => setShowBlocDeconnexion(true)}
+                className="hover:underline cursor-pointer"
+              >
+                Deconnexion
+              </p>
             </li>
           </ul>
         </div>
