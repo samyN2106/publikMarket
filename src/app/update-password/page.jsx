@@ -7,6 +7,27 @@ export default function UpdatePassword() {
   const [password, setPassword] = useState("");
   const { setValuePwd, niveauPwd, getBarColor } = useVerifierPwd();
 
+  useEffect(() => {
+    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+    const access_token = hashParams.get("access_token");
+    const refresh_token = hashParams.get("refresh_token");
+
+    if (access_token && refresh_token) {
+      supabase.auth
+        .setSession({
+          access_token,
+          refresh_token,
+        })
+        .then(({ data, error }) => {
+          if (error) {
+            console.error("Erreur session:", error.message);
+          } else {
+            console.log("Session de récupération active:", data.session);
+          }
+        });
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { error } = await supabase.auth.updateUser({ password });
@@ -16,19 +37,6 @@ export default function UpdatePassword() {
       window.location.href = "/connexion";
     }
   };
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data, error }) => {
-      if (!data.session) {
-        supabase.auth.getUser().then(({ data: userData, error }) => {
-          if (error || !userData) {
-            alert("Lien invalide ou expiré. Veuillez recommencer.");
-            window.location.href = "/connexion";
-          }
-        });
-      }
-    });
-  }, []);
 
   useEffect(() => {
     setValuePwd(password);
