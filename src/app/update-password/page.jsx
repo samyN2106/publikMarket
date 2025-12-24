@@ -18,6 +18,19 @@ export default function UpdatePassword() {
   };
 
   useEffect(() => {
+    supabase.auth.getSession().then(({ data, error }) => {
+      if (!data.session) {
+        supabase.auth.getUser().then(({ data: userData, error }) => {
+          if (error || !userData) {
+            alert("Lien invalide ou expiré. Veuillez recommencer.");
+            window.location.href = "/connexion";
+          }
+        });
+      }
+    });
+  }, []);
+
+  useEffect(() => {
     setValuePwd(password);
   }, [password]);
 
